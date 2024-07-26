@@ -3,17 +3,19 @@
 from PIL import ImageGrab
 from pathlib import Path
 import datetime
-import time
 
-def main_loop():
-    while True:
-        # sleep for 5 seconds
-        time.sleep(60)
+def run():
+    activity_logger_path = Path(Path.home(), "activity_logger")
+    log_path = Path(activity_logger_path, "log.txt")
+    datetime_string = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open(str(log_path), "a") as f:
+        f.write(f"\n{datetime_string} - ")
 
+    try:
         # get today's date as string
         today = datetime.datetime.now().strftime("%Y%m%d")
 
-        dir_path = Path("log", today)
+        dir_path = Path(activity_logger_path, today)
         dir_path.mkdir(parents=True, exist_ok=True)
 
         # Capture the entire screen
@@ -21,11 +23,13 @@ def main_loop():
 
         current_time = datetime.datetime.now().strftime("%H%M%S")
         file_path = Path(dir_path, f"{current_time}.jpg")
-        screenshot.save(str(file_path), quality=15)
-        print(f"Screenshot saved to {str(file_path)}")
+        with open(str(file_path), "w") as f:
+            screenshot.save(f, quality=15)
+        with open(str(log_path), "a") as f:
+            f.write(f"Screenshot saved to {str(file_path)}")
+    except Exception as e:
+        with open(str(log_path), "a") as f:
+            f.write(f"Error: {e}")
 
-        # Close the screenshot
-        screenshot.close()
 
-if __name__ == "__main__":
-    main_loop()
+run()
