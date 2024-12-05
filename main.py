@@ -1,8 +1,8 @@
 #!/venv/bin/python
 
-from PIL import ImageGrab
 from pathlib import Path
 import datetime
+import pyscreenshot as ImageGrab
 
 def run():
     activity_logger_path = Path(Path.home(), "activity_logger")
@@ -21,10 +21,13 @@ def run():
         # Capture the entire screen
         screenshot = ImageGrab.grab()
 
+        # convert to rgb
+        screenshot = screenshot.convert("RGB")
+
         current_time = datetime.datetime.now().strftime("%H%M%S")
         file_path = Path(dir_path, f"{current_time}.jpg")
         with open(str(file_path), "w") as f:
-            screenshot.save(f, quality=15)
+            screenshot.save(f, quality=10)
         with open(str(log_path), "a") as f:
             f.write(f"Screenshot saved to {str(file_path)}")
     except Exception as e:

@@ -1,0 +1,7 @@
+[Unit]
+Description=Logs the activity of the user by taking a screen periodically. The screenshots can be viewed in ~/activity_logger
+
+
+[Service]
+Type=oneshot
+ExecStart=/home/robert/activity_logger/.src/run.sh

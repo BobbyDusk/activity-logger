@@ -1,0 +1,9 @@
+[Unit]
+Description=Logs the activity of the user by taking a screen periodically. The screenshots can be viewed in ~/activity_logger
+
+[Timer]
+OnUnitActiveSec=60s
+OnBootSec=60s
+
+[Install]
+WantedBy=timers.target
