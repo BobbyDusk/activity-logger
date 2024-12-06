@@ -8,13 +8,19 @@ import re
 
 activity_logger_path = Path(Path.home(), "activity_logger")
 
+def get_time_string_from_date(date: datetime.datetime) -> str:
+    return date.strftime("%H:%M:%S")
 
 def get_date_string() -> str:
     return datetime.datetime.now().strftime("%Y-%m-%d")
 
     
+def get_date_time_string_from_date(date: datetime.datetime) -> str:
+    return date.strftime("%Y-%m-%d_%H:%M:%S")
+
+    
 def get_date_time_string() -> str:
-    return datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+    return get_date_time_string_from_date(datetime.datetime.now())
 
 
 def check_if_date(date_string) -> bool:
@@ -52,13 +58,60 @@ def get_previous_folder_path() -> Path:
         return None
 
     
+def create_text_image(text: str) -> Image:
+    image = Image.new("RGB", (1920, 1080), color="black")
+    draw = ImageDraw.Draw(image)
+    font_size = 48
+    font = ImageFont.truetype("Arial.ttf", font_size)
+    text_width = draw.textlength(text, font=font)
+    text_height = font_size
+    position = (image.width // 2 - text_width // 2, image.height // 2 - text_height // 2)
+    text_color = "white"
+    draw.text(position, text, font=font, fill=text_color)
+    return image
+
+
+def process_start_time(time: datetime.datetime, folder_path: Path) -> None:
+    start_time = time - datetime.timedelta(minutes=1)
+    text = f"START {get_time_string_from_date(start_time)}"
+    image = create_text_image(text)
+    image_path = Path(folder_path, f"{get_date_time_string_from_date(start_time)}_START.jpg")
+    image.save(image_path)
+
+
+def process_stop_time(time: datetime.datetime, folder_path: Path) -> None:
+    stop_time = time + datetime.timedelta(minutes=1)
+    text = f"STOP {get_time_string_from_date(stop_time)}"
+    image = create_text_image(text)
+    image_path = Path(folder_path, f"{get_date_time_string_from_date(stop_time)}_STOP.jpg")
+    image.save(image_path)
+
+        
+def insert_start_stop_images(folder_path: Path) -> None:
+    files = sorted(list(folder_path.glob("*.jpg")))
+    previous_date_time = None
+    for index, image_path in enumerate(files):
+        date_time = datetime.datetime.strptime(image_path.stem, "%Y-%m-%d_%H:%M:%S")
+        if index == 0:
+            process_start_time(date_time, folder_path)
+        elif index == len(files) - 1:
+            process_stop_time(date_time, folder_path)
+        elif date_time - previous_date_time >= datetime.timedelta(minutes=5):
+            process_stop_time(previous_date_time, folder_path)
+            process_start_time(date_time, folder_path)
+        previous_date_time = date_time
+
+    
 def process_previous_folder() -> None:
     folder_path = get_previous_folder_path()
     if folder_path and not check_if_video_exists(folder_path):
+        insert_start_stop_images(folder_path)
         create_video_from_images_in_folder(folder_path)
 
+        
+def write_date_time_on_image(image) -> Image:
+    date_time = get_date_time_string()
 
-def write_text_on_image(image: Image, text: str) -> Image:
     draw = ImageDraw.Draw(image)
 
     # Define the font and size (you can specify a TTF file and size)
@@ -66,19 +119,13 @@ def write_text_on_image(image: Image, text: str) -> Image:
 
     position = (20, 20)
     text_color = "white"
-    draw.text(position, text, font=font, fill=text_color)
+    draw.text(position, date_time, font=font, fill=text_color)
 
     position = (20, 45)
     text_color = "black"
-    draw.text(position, text, font=font, fill=text_color)
-
+    draw.text(position, date_time, font=font, fill=text_color)
 
     return image
-
-        
-def write_date_time_on_image(image) -> Image:
-    date_time = get_date_time_string()
-    return write_text_on_image(image, date_time)
 
 
 def run():
@@ -87,10 +134,11 @@ def run():
         f.write(f"\n{get_date_time_string()} - ")
 
     try:
-        # process_previous_folder()
-
         dir_path = Path(activity_logger_path, get_date_string())
-        dir_path.mkdir(parents=True, exist_ok=True)
+        # check if the directory exists, if not create it
+        if not dir_path.exists():
+            dir_path.mkdir(parents=True, exist_ok=True)
+            process_previous_folder()
 
         # Capture the entire screen
         screenshot = ImageGrab.grab()
