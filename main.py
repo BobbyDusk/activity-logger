@@ -7,6 +7,7 @@ import re
 
 
 activity_logger_path = Path(Path.home(), "activity_logger")
+font_path = Path(activity_logger_path, ".src/Arial.ttf")
 
 def get_time_string_from_date(date: datetime.datetime) -> str:
     return date.strftime("%H:%M:%S")
@@ -62,7 +63,7 @@ def create_text_image(text: str) -> Image:
     image = Image.new("RGB", (1920, 1080), color="black")
     draw = ImageDraw.Draw(image)
     font_size = 48
-    font = ImageFont.truetype("Arial.ttf", font_size)
+    font = ImageFont.truetype(font_path, font_size)
     text_width = draw.textlength(text, font=font)
     text_height = font_size
     position = (image.width // 2 - text_width // 2, image.height // 2 - text_height // 2)
@@ -115,7 +116,7 @@ def write_date_time_on_image(image) -> Image:
     draw = ImageDraw.Draw(image)
 
     # Define the font and size (you can specify a TTF file and size)
-    font = ImageFont.truetype("Arial.ttf", 24)  # Load Arial font with size 24
+    font = ImageFont.truetype(font_path, 24)  # Load Arial font with size 24
 
     position = (20, 20)
     text_color = "white"
