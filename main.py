@@ -9,11 +9,17 @@ import re
 activity_logger_path = Path(Path.home(), "activity_logger")
 font_path = Path(activity_logger_path, ".src/Arial.ttf")
 
+
 def get_time_string_from_date(date: datetime.datetime) -> str:
     return date.strftime("%H:%M:%S")
 
+
 def get_date_string() -> str:
     return datetime.datetime.now().strftime("%Y-%m-%d")
+
+    
+def get_day_of_week_string() -> str:
+    return datetime.datetime.now().strftime("%A")
 
     
 def get_date_time_string_from_date(date: datetime.datetime) -> str:
@@ -143,7 +149,7 @@ def run():
         f.write(f"\n{get_date_time_string()} - ")
 
     try:
-        dir_path = Path(activity_logger_path, get_date_string())
+        dir_path = Path(activity_logger_path, f"{get_date_string()}_{get_day_of_week_string()}")
         # check if the directory exists, if not create it
         if not dir_path.exists():
             dir_path.mkdir(parents=True, exist_ok=True)
