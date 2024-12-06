@@ -30,7 +30,7 @@ def check_if_date(date_string) -> bool:
 
 
 def create_video_from_images_in_folder(folder_path: Path) -> None:
-    fps = 2
+    fps = 1
     subprocess.run([
         "ffmpeg", 
         "-framerate", f"{fps}", 
