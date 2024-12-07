@@ -31,12 +31,12 @@ def get_date_time_string() -> str:
 
 
 def check_if_date(date_string) -> bool:
-    pattern = r'^\d{4}-\d{2}-\d{2}$'
+    pattern = r'^\d{4}-\d{2}-\d{2}'
     return bool(re.match(pattern, date_string))
 
 
 def create_video_from_images_in_folder(folder_path: Path) -> None:
-    fps = 1
+    fps = 2
     subprocess.run([
         "ffmpeg", 
         "-framerate", f"{fps}", 
@@ -82,16 +82,18 @@ def process_start_time(time: datetime.datetime, folder_path: Path) -> None:
     start_time = time - datetime.timedelta(minutes=1)
     text = f"START {get_time_string_from_date(start_time)}"
     image = create_text_image(text)
-    image_path = Path(folder_path, f"{get_date_time_string_from_date(start_time)}_START.jpg")
-    image.save(image_path)
+    for i in range(4):
+        image_path = Path(folder_path, f"{get_date_time_string_from_date(start_time)}_START_{i}.jpg")
+        image.save(image_path)
 
 
 def process_stop_time(time: datetime.datetime, folder_path: Path) -> None:
     stop_time = time + datetime.timedelta(minutes=1)
     text = f"STOP {get_time_string_from_date(stop_time)}"
     image = create_text_image(text)
-    image_path = Path(folder_path, f"{get_date_time_string_from_date(stop_time)}_STOP.jpg")
-    image.save(image_path)
+    for i in range(4):
+        image_path = Path(folder_path, f"{get_date_time_string_from_date(stop_time)}_STOP_{i}.jpg")
+        image.save(image_path)
 
         
 def insert_start_stop_images(folder_path: Path) -> None:
