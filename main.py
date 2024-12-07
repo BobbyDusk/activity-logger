@@ -82,7 +82,7 @@ def process_start_time(time: datetime.datetime, folder_path: Path) -> None:
     start_time = time - datetime.timedelta(minutes=1)
     text = f"START {get_time_string_from_date(start_time)}"
     image = create_text_image(text)
-    for i in range(4):
+    for i in range(5):
         image_path = Path(folder_path, f"{get_date_time_string_from_date(start_time)}_START_{i}.jpg")
         image.save(image_path)
 
@@ -91,7 +91,7 @@ def process_stop_time(time: datetime.datetime, folder_path: Path) -> None:
     stop_time = time + datetime.timedelta(minutes=1)
     text = f"STOP {get_time_string_from_date(stop_time)}"
     image = create_text_image(text)
-    for i in range(4):
+    for i in range(5):
         image_path = Path(folder_path, f"{get_date_time_string_from_date(stop_time)}_STOP_{i}.jpg")
         image.save(image_path)
 
@@ -115,7 +115,7 @@ def move_video_and_remove_folder(folder_path: Path) -> None:
     video_path = Path(folder_path, "video.mp4")
     new_video_path = Path(activity_logger_path, f"{folder_path.name}.mp4")
     video_path.rename(new_video_path)
-    subprocess.run(["rm", "-rf", folder_path])
+    # subprocess.run(["rm", "-rf", folder_path])
 
     
 def process_previous_folder() -> None:
