@@ -105,7 +105,7 @@ def insert_start_stop_images(folder_path: Path) -> None:
             process_start_time(date_time, folder_path)
         elif index == len(files) - 1:
             process_stop_time(date_time, folder_path)
-        elif date_time - previous_date_time >= datetime.timedelta(minutes=5):
+        elif date_time - previous_date_time >= datetime.timedelta(minutes=10):
             process_stop_time(previous_date_time, folder_path)
             process_start_time(date_time, folder_path)
         previous_date_time = date_time
