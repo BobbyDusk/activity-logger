@@ -115,13 +115,14 @@ def move_video_and_remove_folder(folder_path: Path) -> None:
     video_path = Path(folder_path, "video.mp4")
     new_video_path = Path(activity_logger_path, f"{folder_path.name}.mp4")
     video_path.rename(new_video_path)
-    # subprocess.run(["rm", "-rf", folder_path])
+    subprocess.run(["rm", "-rf", folder_path])
 
     
-def process_previous_folder() -> None:
+def process_previous_folder(insert_start_stop_images = True) -> None:
     folder_path = get_previous_folder_path()
     if folder_path:
-        insert_start_stop_images(folder_path)
+        if insert_start_stop_images:
+            insert_start_stop_images(folder_path)
         create_video_from_images_in_folder(folder_path)
         move_video_and_remove_folder(folder_path)
 
