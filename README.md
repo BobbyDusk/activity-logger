@@ -19,3 +19,4 @@ On gnome-wayland a flash appears whenever a screenshot is taken. You can disable
 - For every day, also have a json file with a summary of
     - start/stop times
     - total time on computer
+- Add chapters for start-stop see [here](https://medium.com/@dathanbennett/adding-chapters-to-an-mp4-file-using-ffmpeg-5e43df269687)
