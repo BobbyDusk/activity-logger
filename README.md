@@ -12,3 +12,10 @@ On gnome-wayland a flash appears whenever a screenshot is taken. You can disable
 
 - python
 - systemd
+
+## TODO
+
+- On start/stop cards, also mention how much time since last start/stop
+- For every day, also have a json file with a summary of
+    - start/stop times
+    - total time on computer
