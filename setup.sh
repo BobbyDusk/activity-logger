@@ -2,15 +2,6 @@
 
 DIR=$HOME/activity_logger
 
-# create venv
-python3 -m venv $DIR/.venv
-
-# activate venv
-source $DIR/.venv/bin/activate
-
-# install requirements
-pip install -r requirements.txt
-
 # install ffmpeg
 sudo apt install ffmpeg -y
 
@@ -19,6 +10,8 @@ mkdir $DIR/.src -p
 cp ./main.py $DIR/.src/main.py
 cp ./run.sh $DIR/.src/run.sh
 cp ./Arial.ttf $DIR/.src/Arial.ttf
+cp ./pyproject.toml $DIR/.src/pyproject.toml
+cp ./uv.lock $DIR/.src/uv.lock
 
 # copy the systemd files
 cp ./activity_logger.service $HOME/.config/systemd/user/activity_logger.service
