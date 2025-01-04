@@ -17,6 +17,10 @@ cp ./uv.lock $DIR/.src/uv.lock
 cp ./activity_logger.service $HOME/.config/systemd/user/activity_logger.service
 cp ./activity_logger.timer $HOME/.config/systemd/user/activity_logger.timer
 
+# install dependencies
+cd $DIR/.src
+uv sync
+
 # enable and start the service
 systemctl --user daemon-reload
 systemctl --user enable activity_logger.timer
