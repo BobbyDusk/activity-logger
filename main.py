@@ -16,6 +16,7 @@ font_path = Path(activity_logger_path, ".src/Arial.ttf")
 FPS = 2
 DURATION_DISPLAY_CARDS = 3  # in seconds
 frames_display_cards = round(FPS * DURATION_DISPLAY_CARDS)
+DURATION_DETECT_INACTIVITY = 10  # in minutes
 
 
 @dataclass(slots=True)
@@ -56,6 +57,10 @@ def get_date_time_string() -> str:
 def get_date_from_folder(folder_path: Path) -> datetime.datetime:
     date_string = folder_path.name.split("_")[0]
     return datetime.datetime.strptime(date_string, "%Y-%m-%d")
+
+
+def get_date_time_from_image_path(image_path: Path) -> datetime.datetime:
+    return datetime.datetime.strptime(image_path.stem, "%Y-%m-%d_%H:%M:%S")
 
 
 def check_if_date(date_string) -> bool:
@@ -203,12 +208,12 @@ def analyze(folder_path: Path) -> DayData:
         time_blocks[-1].duration = time - time_blocks[-1].start_time
 
     for index, image_path in enumerate(files):
-        date_time = datetime.datetime.strptime(image_path.stem, "%Y-%m-%d_%H:%M:%S")
+        date_time = get_date_time_from_image_path(image_path)
         if index == 0:
             add_start(date_time, index)
         elif index == len(files) - 1:
             add_stop(date_time, index)
-        elif date_time - previous_date_time >= datetime.timedelta(minutes=10):
+        elif date_time - previous_date_time >= datetime.timedelta(minutes=DURATION_DETECT_INACTIVITY):
             add_stop(previous_date_time, index - 1)
             add_start(date_time, index)
         previous_date_time = date_time
@@ -303,6 +308,38 @@ def check_if_image_is_black(image_path: Path) -> bool:
     return black_percentage > 0.97
 
 
+# If there is a single screenshot with no screenshot a long time before and after,
+# then you have a time block of duration 0, which is nonsensical
+def remove_single_images(folder_path: Path) -> None:
+    files = get_files_in_folder(folder_path)
+    files_to_remove = []
+    for index in range(len(files)):
+        current_time = get_date_time_from_image_path(files[index])
+        no_image_before = False
+        if index == 0:
+            no_image_before = True
+        else:
+            previous_image_path = files[index - 1]
+            previous_time = get_date_time_from_image_path(previous_image_path)
+            if current_time - previous_time >= datetime.timedelta(minutes=DURATION_DETECT_INACTIVITY):
+                no_image_before = True
+
+        no_image_after = False
+        if index == len(files) - 1:
+            no_image_after = True
+        else:
+            next_image_path = files[index + 1]
+            next_time = get_date_time_from_image_path(next_image_path)
+            if next_time - current_time >= datetime.timedelta(minutes=DURATION_DETECT_INACTIVITY):
+                no_image_after = True
+        
+        if no_image_before and no_image_after:
+            files_to_remove.append(files[index])
+
+    for file_path in files_to_remove:
+        Path(file_path).unlink()
+
+
 def move_video_and_remove_folder(folder_path: Path) -> None:
     video_path = Path(folder_path, "video.mp4")
     new_video_path = Path(activity_logger_path, f"{folder_path.name}.mp4")
@@ -339,6 +376,7 @@ def save_csv_summary(data: DayData, folder_path) -> None:
 def process_folder(folder_path: Path) -> None:
     if folder_path:
         remove_black_images(folder_path)
+        remove_single_images(folder_path)
         data = analyze(folder_path)
         insert_summary_card(data, folder_path)
         insert_start_stop_cards(data, folder_path)
