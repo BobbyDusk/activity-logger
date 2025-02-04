@@ -16,6 +16,8 @@ On gnome-wayland a flash appears whenever a screenshot is taken. You can disable
 
 ## TODO
 
+- automatic backups
+
 ## TODO (done)
 
 - detect completely black screens and remove them, since those indicate when computer was sleeping, so should be treated as stop

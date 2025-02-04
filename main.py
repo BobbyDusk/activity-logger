@@ -344,7 +344,7 @@ def move_video_and_remove_folder(folder_path: Path) -> None:
     video_path = Path(folder_path, "video.mp4")
     new_video_path = Path(activity_logger_path, f"{folder_path.name}.mp4")
     video_path.rename(new_video_path)
-    subprocess.run(["rm", "-rf", folder_path])
+    # subprocess.run(["rm", "-rf", folder_path])
 
 
 def save_json_summary(data: DayData, folder_path) -> None:
