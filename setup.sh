@@ -14,6 +14,7 @@ cp ./pyproject.toml $DIR/.src/pyproject.toml
 cp ./uv.lock $DIR/.src/uv.lock
 
 # copy the systemd files
+mkdir $HOME/.config/systemd/user -p
 cp ./activity_logger.service $HOME/.config/systemd/user/activity_logger.service
 cp ./activity_logger.timer $HOME/.config/systemd/user/activity_logger.timer
 
