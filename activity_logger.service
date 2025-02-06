@@ -4,4 +4,4 @@ Description=Logs the activity of the user by taking a screen periodically. The s
 
 [Service]
 Type=oneshot
-ExecStart=/home/robert/activity_logger/.src/run.sh
+ExecStart=%h/activity_logger/.src/run.sh
