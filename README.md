@@ -1,4 +1,4 @@
-# Activity Logger
+![banner](/assets/full_logo.png "banner")
 
 Takes periodic screenshot to help you track your activity
 
