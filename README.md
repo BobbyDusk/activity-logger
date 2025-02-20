@@ -1,6 +1,6 @@
-![banner](/assets/logo.png "banner")
-
 # Activity Logger
+
+<img src="logo.png" alt="Logo" widht="200" />
 
 Takes periodic screenshot to help you track your activity
 
