@@ -1,6 +1,6 @@
 # Activity Logger
 
-<img src="logo.png" alt="Logo" widht="200" />
+<img src="logo.png" alt="Logo" width="200" />
 
 Takes periodic screenshot to help you track your activity
 
