@@ -2,9 +2,17 @@
 
 DIR=$HOME/activity_logger
 
+# install uv (if it isn't installed already)
+hash uv 2>/dev/null || {
+	echo "Installing uv"
+	curl -LsSf https://astral.sh/uv/install.sh | sh
+}
+
 # install ffmpeg
-echo "Installing ffmpeg"
-sudo apt install ffmpeg -y
+hash ffmpeg 2>/dev/null || {
+	echo "Installing ffmpeg"
+	sudo apt install ffmpeg -y
+}
 
 # copy source files
 echo "Copying source files"

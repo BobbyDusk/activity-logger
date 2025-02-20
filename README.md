@@ -6,14 +6,6 @@ Takes periodic screenshot to help you track your activity
 
 Currently only works on debian-based linux.
 
-
-## Prerequisites
-
-This tools is written in Python and relies on [uv tooling](https://github.com/astral-sh/uv). 
-
-`curl -LsSf https://astral.sh/uv/install.sh | sh`
-
-
 ## Installation
 
 ```
