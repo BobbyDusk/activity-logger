@@ -8,6 +8,8 @@ Currently only works on debian-based linux.
 
 ## Installation
 
+Simply copy and paste the below command in a terminal.
+
 ```
 wget https://github.com/BobbyDusk/activity-logger/archive/refs/tags/v1.0.0.tar.gz -O activity-logger.tar.gz &&
 tar -xzf activity-logger.tar.gz &&
