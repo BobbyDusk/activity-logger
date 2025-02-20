@@ -9,10 +9,12 @@ Currently only works on debian-based linux.
 ## Installation
 
 ```
-wget https://github.com/BobbyDusk/activity-logger/archive/refs/tags/v1.0.0.tar.gz -O activity-logger.tar.gz \ &&
-tar -xzf activity-logger.tar.gz \ &&
-rm activity-logger.tar.gz \ &&
-bash activity-logger-1.0.0/setup.sh \ &&
+wget https://github.com/BobbyDusk/activity-logger/archive/refs/tags/v1.0.0.tar.gz -O activity-logger.tar.gz &&
+tar -xzf activity-logger.tar.gz &&
+rm activity-logger.tar.gz &&
+cd activity-logger-1.0.0 &&
+bash setup.sh &&
+cd .. &&
 rm -rf activity-logger-1.0.0
 
 ```
