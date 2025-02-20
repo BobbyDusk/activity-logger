@@ -28,7 +28,7 @@ All the generated files (mp4, json and csv) can be accessed in `<home directory>
 
 On gnome-wayland a flash appears whenever a screenshot is taken. You can disable this by disabling animations in the accessibility settings (settings -> accessibility -> seeing -> Animation Effects).
 
-<img src="logo.png" alt="Logo" width="800" />
+<img src="settings.jpg" alt="Turn off animations in gnome" width="800" />
 
 ## Stack
 
