@@ -16,7 +16,6 @@ cd activity-logger-1.0.0 &&
 bash setup.sh &&
 cd .. &&
 rm -rf activity-logger-1.0.0
-
 ```
 
 ## Note
