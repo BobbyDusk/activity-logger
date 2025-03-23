@@ -50,4 +50,10 @@ On gnome-wayland a flash appears whenever a screenshot is taken. You can disable
 - csv file for every day with blocks
 - Add chapters for start-stop see [here](https://medium.com/@dathanbennett/adding-chapters-to-an-mp4-file-using-ffmpeg-5e43df269687) and [here](https://ikyle.me/blog/2020/add-mp4-chapters-ffmpeg)
 
+## License
 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+## Copyright
+
+Copyright (c) 2025, [Edge of Dusk](https://edgeofdusk.com)
